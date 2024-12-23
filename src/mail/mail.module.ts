@@ -13,7 +13,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
         port: 587,
         auth: {
           user: 'no-reply@skkulife.xyz',
-          pass: 'thxc yoav fkbq rmok',
+          pass: process.env.PASS,
         },
       },
       preview: true,
