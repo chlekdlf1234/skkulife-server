@@ -1,0 +1,26 @@
+service: skkulife
+
+plugins:
+
+provider:
+  name: aws
+  region: ap-northeast-2
+  runtime: nodejs20.x
+  stage: dev
+  iamRoleStatements: ${file(resources/${self:custom.stage}.yml):${self:custom.stage}.iamRoleStatements}
+  environment: ${file(resources/${self:custom.stage}.yml):${self:custom.stage}.environment}
+  apiGateway:
+    binaryMediaTypes:
+      - '*/*'
+
+custom:
+  stage: ${opt:stage, self:provider.stage}
+
+functions:
+  api:
+    handler: dist/lambda.handler
+    timeout: 30
+    events:
+      - http:
+          method: any
+          path: /{proxy+}
